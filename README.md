@@ -108,6 +108,14 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 - Want a new feature? [Start a discussion](https://github.com/Dasmat13/recruit-me/issues)
 - Ready to code? Check out [good first issues](https://github.com/Dasmat13/recruit-me/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
 
+## Contributors
+
+<a href="https://github.com/Dasmat13/recruit-me/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Dasmat13/recruit-me" alt="Contributors" />
+</a>
+
+A huge thank you to everyone who contributes to this project — code, issues, design ideas, and feedback all matter. If you contribute and want to be listed here, open an issue and we'll add you.
+
 ## License
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
