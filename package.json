@@ -1,0 +1,7 @@
+{
+  "name": "recruit-me",
+  "private": true,
+  "scripts": {
+    "build": "node vercel-build.js"
+  }
+}
