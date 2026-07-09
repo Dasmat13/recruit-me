@@ -1,683 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Recruit Me If You Can — an interactive portfolio demo for recruiters, developers and curious explorers."
+    />
+    <title>Recruit Me If You Can</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recruit Me If You Can — Candidate Portfolio</title>
-  <meta name="description" content="Prove your company qualifies first. An interactive recruiter evaluation framework for developers to customize their own portfolio." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-</head>
-<body>
+    <header class="site-header">
+      <h1 class="site-title">Recruit&nbsp;Me If You&nbsp;Can</h1>
+      <p class="site-tagline" id="candidate-role">Interactive portfolio demo</p>
+    </header>
 
-  <!-- SCROLL PROGRESS BAR -->
-  <div id="scrollProgress"></div>
-
-  <!-- MATRIX EFFECT CANVAS -->
-  <canvas id="matrixCanvas"></canvas>
-
-  <div class="content-wrapper">
-    <!-- TOP NAV -->
-    <nav class="top-nav" id="topNav">
-      <span class="nav-logo" onclick="showScreen(0)">DH<span class="nav-dot">.</span>dev</span>
-      <div class="nav-right">
-        <span class="nav-round-label" id="navRoundLabel"></span>
-        <button class="btn-mute" id="muteBtn" onclick="toggleMute()" title="Toggle Retro Sound Effects">🔊</button>
-        <button class="btn-mute" id="darkModeBtn" onclick="toggleDarkMode()" title="Toggle Dark / Light mode">🌙</button>
-        <button class="btn btn-skip" onclick="goToResume()">Skip → View Resume</button>
-      </div>
-    </nav>
-
-    <!-- PROGRESS BAR STEPPER -->
-    <div class="progress-stepper">
-      <div class="progress-stepper-fill" id="progressFill"></div>
-    </div>
-
-    <!-- SCREEN 0: LANDING -->
-    <section class="screen active" id="screen-0">
-      <div class="landing-wrap">
-        <div class="badge-row">
-          <span class="badge badge-red">RECRUITER EVALUATION ACTIVE</span>
-          <span class="badge badge-black">2026 EDITION</span>
-        </div>
-        <h1 class="hero-title">Recruit Me<br><span class="hero-stroke">If You Can.</span></h1>
-        <p class="hero-sub">
-          Most candidates beg to be hired.<br>
-          I evaluate the company first.<br>
-          <strong>Prove you're worth my time.</strong>
+    <main id="main" class="layout">
+      <!-- Landing: path selector -->
+      <section
+        id="landing"
+        class="screen"
+        aria-labelledby="landing-title"
+      >
+        <h2 id="landing-title">Choose your path</h2>
+        <p class="lead">
+          This portfolio is a small puzzle. Pick a path to begin, or skip
+          straight to the candidate's details.
         </p>
-        <p class="time-estimate">~3 min</p>
 
-        <!-- HACKER COMMAND LINE CARD -->
-        <div class="terminal-card">
-          <div class="terminal-titlebar">
-            <span class="t-dot t-red"></span>
-            <span class="t-dot t-yellow"></span>
-            <span class="t-dot t-green"></span>
-            <span class="t-filename">recruit-portfolio.sh</span>
-          </div>
-          <div class="terminal-body">
-            <p class="t-line" id="tl1">&nbsp;</p>
-            <p class="t-line" id="tl2">&nbsp;</p>
-            <p class="t-line" id="tl3">&nbsp;</p>
-            <p class="t-line" id="tl4">&nbsp;</p>
-            <div class="t-input-row" id="terminalInputRow" style="display:none;">
-              <span class="t-prompt">$</span>&nbsp;
-              <input type="text" class="t-input" id="terminalInput" placeholder="type 'help' or cheat with 'unlock'..." onkeydown="handleTerminalSubmit(event)" autocomplete="off" />
-            </div>
-            <span class="t-cursor" id="tCursor">█</span>
-          </div>
+        <div class="path-selector" role="group" aria-label="Select an experience path">
+          <button class="path-card" data-mode="recruiter" type="button">
+            <span class="path-icon" aria-hidden="true">🧑‍💼</span>
+            <span class="path-name">Recruiter</span>
+            <span class="path-desc">A quick, friendly taste of who I am.</span>
+          </button>
+          <button class="path-card" data-mode="developer" type="button">
+            <span class="path-icon" aria-hidden="true">💻</span>
+            <span class="path-name">Developer</span>
+            <span class="path-desc">Hands-on technical challenges.</span>
+          </button>
+          <button class="path-card" data-mode="explorer" type="button">
+            <span class="path-icon" aria-hidden="true">🧭</span>
+            <span class="path-name">Explorer</span>
+            <span class="path-desc">Everything, in any order.</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Challenge flow -->
+      <section id="flow" class="screen hidden" aria-hidden="true" aria-labelledby="flow-title">
+        <h2 id="flow-title" class="sr-only">Challenge flow</h2>
+
+        <nav
+          id="progress-stepper"
+          class="progress-stepper"
+          aria-label="Challenge progress"
+        ></nav>
+
+        <div class="progress-bar" role="progressbar" aria-label="Overall progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-fill" id="progress-fill"></div>
         </div>
 
-        <!-- ROLE SELECTOR -->
-        <div class="role-selector-container">
-          <p class="role-selector-title">SELECT YOUR PATH TO EVALUATE:</p>
-          <div class="role-buttons">
-            <button class="role-btn active" data-role="fullstack" onclick="selectRole('fullstack')">
-              <span class="role-icon">💻</span>
-              <span class="role-name">Full-Stack Dev</span>
-            </button>
-            <button class="role-btn" data-role="devops" onclick="selectRole('devops')">
-              <span class="role-icon">🚀</span>
-              <span class="role-name">DevOps Eng</span>
-            </button>
-            <button class="role-btn" data-role="pm" onclick="selectRole('pm')">
-              <span class="role-icon">👔</span>
-              <span class="role-name">Product Mgr</span>
-            </button>
-          </div>
-        </div>
+        <div id="challenge-root" class="challenge-root" aria-live="polite"></div>
 
-        <div class="hero-actions">
-          <button class="btn btn-primary" id="startBtn" onclick="startChallenge()">▶ START ASSESSMENT</button>
-          <button class="btn btn-secondary" onclick="goToPortfolio()">Skip → View Portfolio</button>
-          <button class="btn btn-outline" onclick="showScreen('leaderboard')">🏆 Leaderboard</button>
+        <div class="flow-controls">
+          <button id="prev-challenge" class="btn btn-ghost" type="button">Back</button>
+          <button id="next-challenge" class="btn btn-primary" type="button">Continue</button>
         </div>
+      </section>
 
-        <div class="stats-strip">
-          <div class="stat-block">
-            <span class="stat-val">04</span>
-            <span class="stat-key">ROUNDS</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-block">
-            <span class="stat-val">~2</span>
-            <span class="stat-key">MINUTES</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-block">
-            <span class="stat-val">40</span>
-            <span class="stat-key">MAX SCORE</span>
-          </div>
-        </div>
-      </div>
-    </section>
+      <!-- Unlock screen -->
+      <section id="unlock-screen" class="screen hidden" aria-hidden="true" aria-labelledby="unlock-title">
+        <h2 id="unlock-title">You unlocked the portfolio 🎉</h2>
+        <p class="lead" id="unlock-bio"></p>
 
-    <!-- SCREEN 1: ROUND 1 — Company Culture -->
-    <section class="screen" id="screen-1">
-      <div class="round-wrap">
-        <div class="round-header">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
-            <span class="round-badge">ROUND 01 / 04</span>
-            <span class="rating-pill">Match Potential: Evaluating... 📋</span>
-          </div>
-          <h2 class="round-title">Company Culture Test</h2>
-          <p class="round-desc">Let's see what kind of environment you're actually offering. Hover over options for hints.</p>
-          <div class="reaction-avatar-box">
-            <div class="avatar-face" id="reactionFace-1">👔</div>
-            <div class="avatar-speech" id="reactionSpeech-1">Awaiting evaluation... Let's see your culture metrics.</div>
-          </div>
-        </div>
-        <div class="questions-list" id="q-round1"></div>
-        <div class="round-foot">
-          <button class="btn btn-primary" id="btn-r1" onclick="nextRound(1)" disabled>Next Round →</button>
-        </div>
-      </div>
-    </section>
+        <ul class="unlock-links" aria-label="Candidate links">
+          <li class="hidden" data-link="resume">
+            <a id="link-resume" href="#" target="_blank" rel="noopener">📄 Resume</a>
+          </li>
+          <li class="hidden" data-link="github">
+            <a id="link-github" href="#" target="_blank" rel="noopener">🐙 GitHub</a>
+          </li>
+          <li class="hidden" data-link="linkedin">
+            <a id="link-linkedin" href="#" target="_blank" rel="noopener">💼 LinkedIn</a>
+          </li>
+          <li class="hidden" data-link="contact">
+            <a id="link-contact" href="#">✉️ Contact</a>
+          </li>
+        </ul>
 
-    <!-- SCREEN 2: ROUND 2 — Work-Life Reality -->
-    <section class="screen" id="screen-2">
-      <div class="round-wrap">
-        <div class="round-header">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
-            <span class="round-badge">ROUND 02 / 04</span>
-            <span class="rating-pill">Match Potential: Evaluating... 📋</span>
-          </div>
-          <h2 class="round-title">Work-Life Reality Check</h2>
-          <p class="round-desc">Be honest. Let's see if burnout is on the horizon.</p>
-          <div class="reaction-avatar-box">
-            <div class="avatar-face" id="reactionFace-2">👔</div>
-            <div class="avatar-speech" id="reactionSpeech-2">Let's be real about hours. No sugarcoating!</div>
-          </div>
-        </div>
-        <div class="questions-list" id="q-round2"></div>
-        <div class="round-foot">
-          <button class="btn btn-primary" id="btn-r2" onclick="nextRound(2)" disabled>Next Round →</button>
-        </div>
-      </div>
-    </section>
+        <div class="achievements" id="achievements" aria-label="Achievements"></div>
 
-    <!-- SCREEN 3: ROUND 3 — Tech Environment -->
-    <section class="screen" id="screen-3">
-      <div class="round-wrap">
-        <div class="round-header">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
-            <span class="round-badge">ROUND 03 / 04</span>
-            <span class="rating-pill">Match Potential: Evaluating... 📋</span>
-          </div>
-          <h2 class="round-title">Technical Environment</h2>
-          <p class="round-desc">I care deeply about code craft, CI/CD automation, and software architecture.</p>
-          <div class="reaction-avatar-box">
-            <div class="avatar-face" id="reactionFace-3">👔</div>
-            <div class="avatar-speech" id="reactionSpeech-3">Show me the CI/CD pipeline. Manual deploys hurt my soul.</div>
-          </div>
-        </div>
-        <div class="questions-list" id="q-round3"></div>
-        <div class="round-foot">
-          <button class="btn btn-primary" id="btn-r3" onclick="nextRound(3)" disabled>Next Round →</button>
-        </div>
-      </div>
-    </section>
+        <button id="restart" class="btn btn-ghost" type="button">Start over</button>
+      </section>
 
-    <!-- SCREEN 4: ROUND 4 — Growth & Compensation -->
-    <section class="screen" id="screen-4">
-      <div class="round-wrap">
-        <div class="round-header">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
-            <span class="round-badge">ROUND 04 / 04 — FINAL</span>
-            <span class="rating-pill">Match Potential: Evaluating... 📋</span>
-          </div>
-          <h2 class="round-title">Growth & Compensation</h2>
-          <p class="round-desc">This is the final round. Can you match modern dev expectations?</p>
-          <div class="reaction-avatar-box">
-            <div class="avatar-face" id="reactionFace-4">👔</div>
-            <div class="avatar-speech" id="reactionSpeech-4">Let's talk budgets and professional growth ladders.</div>
-          </div>
-        </div>
-        <div class="questions-list" id="q-round4"></div>
-        <div class="round-foot">
-          <button class="btn btn-primary" id="btn-r4" onclick="showResults()" disabled>See My Verdict →</button>
-        </div>
-      </div>
-    </section>
+      <!-- Persistent skip: visible on all modes -->
+      <button id="view-portfolio" class="btn btn-skip" type="button">
+        View Portfolio Directly
+      </button>
+    </main>
 
-    <!-- SCREEN 5: RESULTS -->
-    <section class="screen" id="screen-5">
-      <div class="results-wrap">
-        <div class="results-header">
-          <span class="round-badge">RECRUITER QUALIFICATION REPORT</span>
-          <h2 class="results-title" id="resultsTitle">Tallying your answers...</h2>
-        </div>
-        <div class="score-bars" id="scoreBars">
-          <div class="score-row">
-            <span class="score-label">Company Culture</span>
-            <div class="bar-track"><div class="bar-fill" id="bar-culture"></div></div>
-            <span class="score-num" id="num-culture">0/10</span>
-          </div>
-          <div class="score-row">
-            <span class="score-label">Work-Life Balance</span>
-            <div class="bar-track"><div class="bar-fill" id="bar-worklife"></div></div>
-            <span class="score-num" id="num-worklife">0/10</span>
-          </div>
-          <div class="score-row">
-            <span class="score-label">Tech Environment</span>
-            <div class="bar-track"><div class="bar-fill" id="bar-tech"></div></div>
-            <span class="score-num" id="num-tech">0/10</span>
-          </div>
-          <div class="score-row">
-            <span class="score-label">Growth & Comp</span>
-            <div class="bar-track"><div class="bar-fill" id="bar-growth"></div></div>
-            <span class="score-num" id="num-growth">0/10</span>
-          </div>
-        </div>
-        <div class="total-box" id="totalBox">
-          <div class="total-inner">
-            <span class="total-label">TOTAL SCORE</span>
-            <span class="total-num" id="totalNum">0 / 40</span>
-            <span class="verdict-chip" id="verdictChip">Evaluating</span>
-          </div>
-        </div>
-        <p class="verdict-msg" id="verdictMsg"></p>
+    <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="false"></div>
 
-        <!-- Your Scorecard -->
-        <div class="rating-back-card" id="ratingBackCard" style="display:none; margin-top:2rem; margin-bottom:2rem;">
-          <h3 class="rating-back-title">🤝 CANDIDATE RATED YOU BACK:</h3>
-          <div class="rating-back-list" id="ratingBackList">
-            <!-- Rendered via JS -->
-          </div>
-        </div>
+    <footer class="site-footer">
+      <p>Built with the recruit-me interactive portfolio framework.</p>
+    </footer>
 
-        <!-- LinkedIn Badge Download -->
-        <div class="badge-download-card" id="badgeDownloadCard" style="display:none; margin-top:2rem; margin-bottom:2rem;">
-          <h3 class="badge-card-title">🏆 Share Your Achievement</h3>
-          <p class="badge-card-subtitle">Generate a customized Neobrutalist badge to share your score on LinkedIn.</p>
-          <div class="badge-preview-wrapper">
-            <canvas id="badgeCanvas" width="600" height="315"></canvas>
-          </div>
-          <div class="badge-btn-row">
-            <button class="btn btn-primary" onclick="downloadBadgeImage()">⬇ Download PNG Badge</button>
-            <button class="btn btn-secondary" onclick="shareOnLinkedIn()">🔗 Share on LinkedIn</button>
-          </div>
-        </div>
-        
-        <!-- Recruiter Name Input -->
-        <div class="recruiter-name-box" style="margin-top:1.5rem; margin-bottom:1.5rem; text-align:left; max-width:400px; margin-left:auto; margin-right:auto;">
-          <label for="recruiterNameInput" style="display:block; font-weight:bold; margin-bottom:0.5rem; font-family:'Space Grotesk', sans-serif; font-size:0.9rem; letter-spacing:1px;">🏢 ENTER YOUR COMPANY / NAME FOR THE LEADERBOARD:</label>
-          <input type="text" id="recruiterNameInput" placeholder="e.g. Acme Corp or Anonymous" style="width:100%; padding:0.75rem; font-family:'JetBrains Mono', monospace; font-size:1rem; border:3px solid var(--black); box-shadow:4px 4px 0 var(--black); outline:none; background:var(--white); color:var(--black);" />
-        </div>
-
-        <div class="results-actions">
-          <button class="btn btn-unlock" id="unlockBtn" onclick="unlockContact()">🔓 Unlock Contact Information</button>
-          <button class="btn btn-primary" id="pdfBtn" style="display:none;">⬇ Download Report</button>
-          <button class="btn btn-secondary" id="shareLinkBtn" style="display:none;">🔗 Copy Shareable Link</button>
-        </div>
-        <div id="shareLinkContainer" style="display:none; margin-top:1rem;">
-          <input type="text" id="shareLinkInput" readonly style="width:80%; padding:0.4rem;"/>
-        </div>
-      </div>
-    </section>
-
-    <!-- SCREEN 6: CONTACT UNLOCKED -->
-    <section class="screen" id="screen-6">
-      <div class="contact-wrap">
-        <div class="contact-header">
-          <span class="unlock-chip">✅ ACCESS GRANTED</span>
-          <h2 class="contact-title">Let's Make It Official.</h2>
-          <p class="contact-sub">You passed the assessment. Here's how to reach the candidate.</p>
-        </div>
-        <div class="contact-grid">
-          <a href="#" class="contact-card" id="cc-email">
-            <span class="cc-icon">📧</span>
-            <div class="cc-info">
-              <span class="cc-type">EMAIL</span>
-              <span class="cc-val">candidate@example.com (edit config.js)</span>
-            </div>
-          </a>
-          <a href="https://github.com/your-username" target="_blank" class="contact-card" id="cc-github">
-            <span class="cc-icon">🐙</span>
-            <div class="cc-info">
-              <span class="cc-type">GITHUB</span>
-              <span class="cc-val">github.com/your-username</span>
-            </div>
-          </a>
-          <a href="https://linkedin.com/in/your-profile" target="_blank" class="contact-card" id="cc-linkedin">
-            <span class="cc-icon">💼</span>
-            <div class="cc-info">
-              <span class="cc-type">LINKEDIN</span>
-              <span class="cc-val">linkedin.com/in/your-profile</span>
-            </div>
-          </a>
-        </div>
-        <button class="btn btn-secondary" onclick="goToPortfolio()" style="margin-top:2.5rem;">View Full Portfolio →</button>
-        <a href="mailto:candidate@example.com?subject=Re%3A%20Recruit%20Me%20If%20You%20Can&body=Hi%20Candidate%2C%0A%0A" class="btn btn-primary" style="margin-top:1rem; display:inline-flex; text-decoration:none;">✉️ Contact Candidate</a>
-      </div>
-    </section>
-
-    <!-- SCREEN 7: PORTFOLIO SCREEN -->
-    <section class="screen" id="screen-portfolio">
-      <div class="portfolio-wrap">
-        
-        <!-- HERO CARD -->
-        <div class="portfolio-hero">
-          <span class="port-badge">FULL STACK DEVELOPER</span>
-          <h1 class="port-name">A Developer</h1>
-          <p class="port-bio">Full Stack Developer passionate about building reliable software and open source. Customize this bio in config.js and index.html.</p>
-          
-          <div class="skills-row">
-            <span class="skill">Node.js</span><span class="skill">Express.js</span><span class="skill">MongoDB</span>
-            <span class="skill">JavaScript</span><span class="skill">AWS</span><span class="skill">Docker</span>
-            <span class="skill">Prometheus</span><span class="skill">Grafana</span><span class="skill">PostgreSQL</span>
-          </div>
-
-          <!-- Quick Stats Row -->
-          <div class="port-stats-grid">
-            <div class="p-stat-card">
-              <span class="p-stat-val">100+</span>
-              <span class="p-stat-lbl">GitHub Commits</span>
-            </div>
-            <div class="p-stat-card">
-              <span class="p-stat-val">12+</span>
-              <span class="p-stat-lbl">Active Projects</span>
-            </div>
-            <div class="p-stat-card">
-              <span class="p-stat-val">100+</span>
-              <span class="p-stat-lbl">DSA Solved</span>
-            </div>
-            <div class="p-stat-card">
-              <span class="p-stat-val">4+</span>
-              <span class="p-stat-lbl">OS Contributions</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ABOUT ME ACCORDION/TABBED VIEW -->
-        <div class="about-section">
-          <h2 class="section-heading">About My Journey</h2>
-          <div class="about-tabs-nav">
-            <button class="about-tab-btn active" data-tab="path">My Path</button>
-            <button class="about-tab-btn" data-tab="philosophy">Core Philosophy</button>
-            <button class="about-tab-btn" data-tab="facts">Fun Facts</button>
-          </div>
-          <div class="about-tabs-content">
-            <!-- PANE 1 -->
-            <div class="about-pane active" id="about-pane-path">
-              <p>I started my journey exploring algorithmic logic and competitive programming, which built my foundation in Data Structures and Algorithms. Soon after, I fell in love with server architectures and building distributed APIs. I build system backends that aren't just fast but easily maintainable and fully monitored.</p>
-              <p style="margin-top:1rem;">Over the past few years, I've designed cloud setups, configured complex pipelines, and contributed to key open-source projects including Kubernetes tools and development utilities.</p>
-            </div>
-            <!-- PANE 2 -->
-            <div class="about-pane" id="about-pane-philosophy">
-              <p>My core engineering rules are simple:</p>
-              <ul style="margin-top: 0.5rem; padding-left: 1.5rem; line-height: 1.8;">
-                <li><strong>Clear over Clever:</strong> Write readable, simple code before optimizing prematurely.</li>
-                <li><strong>Observability is Mandatory:</strong> If a system isn't monitored with metrics (like Prometheus/Grafana), it's broken.</li>
-                <li><strong>Automate Everything:</strong> CI/CD, lint checkers, and tests save thousands of engineering hours.</li>
-              </ul>
-            </div>
-            <!-- PANE 3 -->
-            <div class="about-pane" id="about-pane-facts">
-              <ul class="fun-facts-list">
-                <li>I once optimized a script to reduce dataset annotation times by 80%.</li>
-                <li>My terminal theme is dark mode exclusively (light terminal users scare me).</li>
-                <li>When not writing code, you can find me reviewing Kubernetes controllers or solving leetcode queries.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- SKILLS CATEGORIZED LIST WITH BARS -->
-        <div class="skills-section">
-          <h2 class="section-heading">Skills Matrix</h2>
-          <div class="skills-grid">
-            <!-- CAT 1 -->
-            <div class="skills-category-card">
-              <h3 class="skills-cat-title">Backend Architecture</h3>
-              <div class="skills-list-wrapper">
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="Highly proficient asynchronous backend routing">Node.js / Express</span>
-                    <span>90%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="90"></div></div>
-                </div>
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="Clean, strongly-typed scalable applications">TypeScript / JS</span>
-                    <span>85%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="85"></div></div>
-                </div>
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="RESTful standard interface models">RESTful API Design</span>
-                    <span>88%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="88"></div></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- CAT 2 -->
-            <div class="skills-category-card">
-              <h3 class="skills-cat-title">Data Stores</h3>
-              <div class="skills-list-wrapper">
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="Flexible schema documents & query indexing">MongoDB</span>
-                    <span>85%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="85"></div></div>
-                </div>
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="Relational structures, migrations, index tuning">PostgreSQL</span>
-                    <span>75%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="75"></div></div>
-                </div>
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="In-memory cache queues & key-val session stores">Redis Cache</span>
-                    <span>70%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="70"></div></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- CAT 3 -->
-            <div class="skills-category-card">
-              <h3 class="skills-cat-title">DevOps & Cloud</h3>
-              <div class="skills-list-wrapper">
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="Container isolation & docker-compose orchestration">Docker Environments</span>
-                    <span>80%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="80"></div></div>
-                </div>
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="Metrics, scrapers, dashboard visual alerts">Prometheus / Grafana</span>
-                    <span>75%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="75"></div></div>
-                </div>
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="Hosted EC2 clusters, cloud storage buckets">AWS Cloud</span>
-                    <span>70%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="70"></div></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- CAT 4 -->
-            <div class="skills-category-card">
-              <h3 class="skills-cat-title">Computer Science</h3>
-              <div class="skills-list-wrapper">
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="Arrays, HashMaps, Trees, Graphs, Search/Sort algorithms">Data Structures (DSA)</span>
-                    <span>80%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="80"></div></div>
-                </div>
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="Complexity bounds, optimal space solutions">Algorithm Analysis</span>
-                    <span>75%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="75"></div></div>
-                </div>
-                <div class="skill-bar-item">
-                  <div class="skill-bar-info">
-                    <span class="skill-bar-name" data-tooltip="Git branches, conflict resolution, PR merges">Git / Collaboration</span>
-                    <span>85%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill" data-level="85"></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TIMELINE ROADMAP -->
-        <div class="timeline-section">
-          <h2 class="section-heading">My Timeline Roadmap</h2>
-          <div class="timeline-container">
-            <div class="timeline-item">
-              <div class="timeline-marker"></div>
-              <span class="timeline-time">2026 — Present</span>
-              <div class="timeline-card">
-                <h4 class="timeline-title">Active Open Source & Core Backend Engineering</h4>
-                <p class="timeline-subtitle">Open Source Contributor & Dev Tools Builder</p>
-                <p class="timeline-desc">Contributing fixes, features, and configurations to various tools (such as LWS Kubernetes setup controllers, BioDrop profiles, and Karpenter modules).</p>
-              </div>
-            </div>
-            
-            <div class="timeline-item">
-              <div class="timeline-marker"></div>
-              <span class="timeline-time">2025</span>
-              <div class="timeline-card">
-                <h4 class="timeline-title">Created Explain My Repo & UptimeOps Monitoring</h4>
-                <p class="timeline-subtitle">Founder & Lead Backend Architect</p>
-                <p class="timeline-desc">Designed an AI-powered repository analyst utilizing LLM backends and custom scrapers. Scaled UptimeOps SaaS platform using Prometheus & Redis caching layers.</p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <div class="timeline-marker"></div>
-              <span class="timeline-time">2024</span>
-              <div class="timeline-card">
-                <h4 class="timeline-title">Deep Dive into Node.js, Systems, & DSA</h4>
-                <p class="timeline-subtitle">Independent Study & Project Builder</p>
-                <p class="timeline-desc">Built auto-annotation software, dataset parsers, and custom API proxies. Focused intensely on solving intermediate to advanced competitive programming challenges.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- FEATURED PROJECTS GRID -->
-        <div class="projects-section">
-          <h2 class="section-heading">Featured Engineering Projects</h2>
-          <div class="projects-grid">
-            <div class="project-card">
-              <span class="proj-num">01 / PROJECT</span>
-              <h3 class="proj-name">Explain My Repo</h3>
-              <p class="proj-desc">AI-powered analyzer converting full repository architectures into neat Markdown explanations. Built on Node.js and the Gemini API.</p>
-              <div class="proj-tags"><span class="ptag">Node.js</span><span class="ptag">Gemini AI</span><span class="ptag">REST API</span></div>
-               <a href="https://github.com/your-username/repo-1" target="_blank" class="btn btn-outline" style="margin-top:1rem;">View Codebase →</a>
-             </div>
-             
-             <div class="project-card">
-               <span class="proj-num">02 / PROJECT</span>
-               <h3 class="proj-name">Project Two</h3>
-               <p class="proj-desc">Replace with your project description in index.html.</p>
-               <div class="proj-tags"><span class="ptag">Tech</span><span class="ptag">Stack</span><span class="ptag">Tags</span></div>
-               <a href="https://github.com/your-username/repo-2" target="_blank" class="btn btn-outline" style="margin-top:1rem;">View Codebase →</a>
-             </div>
-
-             <div class="project-card">
-               <span class="proj-num">03 / PROJECT</span>
-               <h3 class="proj-name">Project Three</h3>
-               <p class="proj-desc">Add or remove project cards in the projects-section of index.html.</p>
-               <div class="proj-tags"><span class="ptag">Tech</span><span class="ptag">Stack</span><span class="ptag">Tags</span></div>
-               <a href="https://github.com/your-username/repo-3" target="_blank" class="btn btn-outline" style="margin-top:1rem;">View Codebase →</a>
-             </div>
-          </div>
-        </div>
-
-        <!-- NEW COMPONENT: INTERACTIVE COMPENSATION OFFER CALCULATOR -->
-        <div class="calculator-section">
-          <h2 class="section-heading">Offer Attraction Index</h2>
-          <p style="margin-bottom:1.5rem; opacity:0.8;">Recruiters: Adjust the sliders below to see if your compensation and hybrid balance would appeal to this candidate in real-time!</p>
-          <div class="calculator-card">
-            <div class="calc-grid">
-              <div class="calc-sliders">
-                
-                <div class="slider-group">
-                  <div class="slider-label-row">
-                    <span>Base Compensation</span>
-                    <span class="slider-val" id="valSalary">15 LPA</span>
-                  </div>
-                  <input type="range" min="6" max="30" step="1" value="15" class="brutal-slider" id="calcSalary" />
-                </div>
-                
-                <div class="slider-group">
-                  <div class="slider-label-row">
-                    <span>Remote/Work-from-Home days</span>
-                    <span class="slider-val" id="valRemote">3 Days</span>
-                  </div>
-                  <input type="range" min="0" max="5" step="1" value="3" class="brutal-slider" id="calcRemote" />
-                </div>
-                
-                <div class="slider-group">
-                  <div class="slider-label-row">
-                    <span>Annual Learning Budget</span>
-                    <span class="slider-val" id="valLearning">₹50K / $1000</span>
-                  </div>
-                  <input type="range" min="0" max="2000" step="100" value="1000" class="brutal-slider" id="calcLearning" />
-                </div>
-                
-              </div>
-
-              <!-- Live Attraction Outcome box -->
-              <div class="calc-score-card">
-                <div class="calc-score-title">Interest Metric</div>
-                <div class="calc-score-num" id="calcScoreNum">75%</div>
-                <div class="calc-score-verdict" id="calcScoreVerdict">Strong Match</div>
-                <button class="btn btn-secondary" onclick="copyPitchEmail()" style="font-size:0.75rem; padding:0.55rem 0.85rem; margin-top: 1rem; width:100%; justify-content:center;">Copy Dynamic Pitch Email 📋</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CTAS & BOTTOM NAVIGATION -->
-        <div class="port-cta">
-          <button class="btn btn-primary" onclick="showScreen(0)">← Retake assessment</button>
-          <button class="btn btn-secondary" onclick="unlockContact()">📬 Unlock Contact details</button>
-        </div>
-      </div>
-
-      <!-- FOOTER -->
-      <footer class="port-footer">
-        <p>Built with <span class="port-footer-heart">❤</span> & Recruit Me framework. All code evaluations are game-based simulation matrices.</p>
-      </footer>
-    </section>
-  </div>
-
-  <!-- LEADERBOARD SCREEN -->
-  <section class="screen" id="screen-leaderboard">
-    <div class="results-wrap">
-      <div class="results-header">
-        <span class="round-badge">🏆 RECRUITER LEADERBOARD</span>
-        <h2 class="results-title">Top Scoring Companies</h2>
-        <p style="opacity:0.7; margin-top:0.5rem;">The most developer-friendly companies that took the assessment.</p>
-      </div>
-      <div id="leaderboard-list" style="margin-top:2rem;">
-        <p style="opacity:0.5;">Loading leaderboard…</p>
-      </div>
-      <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
-        <button class="btn btn-secondary" onclick="showScreen(0)">← Back to Start</button>
-        <button class="btn btn-primary" onclick="startChallenge()">▶ Take the Assessment</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- MINI-GAME MODAL -->
-  <div id="gameModal" class="game-modal">
-    <div class="game-modal-content">
-      <div class="game-modal-header">
-        <span class="game-title">🕹️ Retro Runner: Developer Edition</span>
-        <button class="game-close" onclick="closeMiniGame()">✕</button>
-      </div>
-      <div class="game-body">
-        <p class="game-instructions">Press <strong>SPACEBAR</strong> or tap screen to jump. Dodge the "Bugs" and "Micromanagement" blocks!</p>
-        <div class="game-canvas-container">
-          <canvas id="runnerCanvas" width="640" height="240"></canvas>
-        </div>
-        <div class="game-score-row">
-          <span>Score: <strong id="runnerScore">0</strong></span>
-          <span>High Score: <strong id="runnerHighScore">0</strong></span>
-        </div>
-        <div class="game-controls">
-          <button class="btn btn-primary" id="btnRestartGame" onclick="restartMiniGame()">Play Again</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CONFETTI PARTICLE CANVAS -->
-  <canvas id="confettiCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;"></canvas>
-
-  <!-- TOAST NOTIFICATION GRID -->
-  <div id="toast-container"></div>
-
-  <script src="app.js"></script>
-</body>
+    <script type="module" src="config.js"></script>
+    <script type="module" src="loader.mjs"></script>
+  </body>
 </html>

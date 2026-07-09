@@ -1,91 +1,92 @@
 /**
- * Drag & Drop Challenge
+ * Drag & Drop Challenge — Fix My Deployment
  *
- * Simple matching challenge: items → buckets.
+ * Reorder CI/CD pipeline steps into the correct sequence.
+ * Items: "Push", "Docker Build", "Tests", "Deploy"
+ * Correct order: Push → Tests → Docker Build → Deploy
  */
 
-export function init(container) {
-  const items = [
-    { id: 'docker', label: 'Docker' },
-    { id: 'gh-actions', label: 'GitHub Actions' },
-    { id: 'terraform', label: 'Terraform' },
-    { id: 'prometheus', label: 'Prometheus' },
-  ];
-  const buckets = [
-    { id: 'containerization', label: 'Containerization' },
-    { id: 'cicd', label: 'CI/CD' },
-    { id: 'iac', label: 'Infrastructure as Code' },
-    { id: 'monitoring', label: 'Monitoring' },
-  ];
-  const answers = {
-    docker: 'containerization',
-    'gh-actions': 'cicd',
-    terraform: 'iac',
-    prometheus: 'monitoring',
-  };
+export const metadata = {
+  title: 'Fix My Deployment',
+  description: 'Drag the pipeline steps into the correct order.',
+  difficulty: 'medium',
+  estimatedMinutes: 2,
+  tags: ['cicd', 'devops', 'drag-drop'],
+};
 
-  container.innerHTML = '<h3>Drag each item into the correct bucket.</h3>';
+const ORDER = ['push', 'tests', 'docker', 'deploy'];
+const ITEMS = [
+  { id: 'push', label: 'Push' },
+  { id: 'docker', label: 'Docker Build' },
+  { id: 'tests', label: 'Tests' },
+  { id: 'deploy', label: 'Deploy' },
+];
 
-  const board = document.createElement('div');
-  board.style.display = 'grid';
-  board.style.gridTemplateColumns = '1fr 1fr';
-  board.style.gap = '1rem';
-  container.appendChild(board);
+export function init(container, engine) {
+  container.innerHTML = `
+    <h3>Fix My Deployment</h3>
+    <p class="challenge-body">Arrange these steps in the correct CI/CD order.</p>
+    <div class="pipeline-board" aria-label="Pipeline ordering challenge">
+      <div class="pipeline-slots" aria-hidden="true">
+        ${ORDER.map((id, idx) => `<div class="pipeline-slot" data-slot-index="${idx}" data-expected="${id}"></div>`).join('')}
+      </div>
+      <div class="pipeline-items">
+        ${ITEMS.map((item) => `<div class="drag-item" draggable="true" data-item-id="${item.id}">${item.label}</div>`).join('')}
+      </div>
+    </div>
+    <button id="pipeline-submit" class="btn btn-primary" type="button" style="margin-top:1rem;">Check Order</button>
+    <p id="pipeline-feedback" class="sr-only" aria-live="polite"></p>
+  `;
 
-  const left = document.createElement('div');
-  left.className = 'challenge-column';
-  left.innerHTML = '<h4>Items</h4>';
-  const right = document.createElement('div');
-  right.className = 'challenge-column';
-  right.innerHTML = '<h4>Buckets</h4>';
+  const slots = container.querySelectorAll('.pipeline-slot');
+  const items = container.querySelectorAll('.drag-item');
+  const submitBtn = container.querySelector('#pipeline-submit');
+  const feedback = container.querySelector('#pipeline-feedback');
+  let score = 0;
 
-  board.appendChild(left);
-  board.appendChild(right);
-
-  items.forEach(item => {
-    const el = document.createElement('div');
-    el.className = 'draggable';
-    el.textContent = item.label;
-    el.draggable = true;
-    el.dataset.id = item.id;
-    left.appendChild(el);
+  items.forEach((item) => {
+    item.ondragstart = (e) => {
+      e.dataTransfer.setData('text/plain', item.dataset.itemId);
+      e.dataTransfer.effectAllowed = 'move';
+    };
   });
 
-  buckets.forEach(b => {
-    const zone = document.createElement('div');
-    zone.className = 'drop-zone';
-    zone.dataset.id = b.id;
-    zone.textContent = b.label;
-    zone.style.border = '2px dashed #000';
-    zone.style.padding = '0.5rem';
-    zone.style.borderRadius = '8px';
-    zone.style.marginTop = '0.5rem';
-
-    zone.ondragover = (e) => {
+  slots.forEach((slot) => {
+    slot.ondragover = (e) => {
       e.preventDefault();
-      zone.style.background = '#f4f4f4';
+      slot.style.borderColor = 'var(--color-accent)';
     };
-    zone.ondragleave = () => {
-      zone.style.background = '';
+    slot.ondragleave = () => {
+      slot.style.borderColor = '';
     };
-    zone.ondrop = (e) => {
+    slot.ondrop = (e) => {
       e.preventDefault();
-      zone.style.background = '';
+      slot.style.borderColor = '';
       const id = e.dataTransfer.getData('text/plain');
-      if (answers[id] === zone.dataset.id) {
-        zone.style.background = '#d4edda';
-        zone.textContent = `${b.label} ✓`;
-      } else {
-        zone.style.background = '#f8d7da';
-        zone.textContent = `${b.label} ✗ Try again`;
+      slot.innerHTML = '';
+      const existing = document.querySelector(`.pipeline-slot .drag-item[data-item-id="${id}"]`);
+      if (existing) existing.remove();
+      const moved = document.querySelector(`.drag-item[data-item-id="${id}"]`);
+      if (moved) slot.appendChild(moved);
+    };
+  });
+
+  if (submitBtn) {
+    submitBtn.onclick = () => {
+      let correct = 0;
+      slots.forEach((slot, idx) => {
+        const item = slot.querySelector('.drag-item');
+        if (item && item.dataset.itemId === ORDER[idx]) correct += 1;
+      });
+      score = correct * 25;
+      if (feedback) feedback.textContent = `You placed ${correct} of ${ORDER.length} steps correctly.`;
+      if (engine && typeof engine.complete === 'function') {
+        engine.complete('dragDrop', score);
       }
     };
-    right.appendChild(zone);
-  });
+  }
+}
 
-  document.querySelectorAll('.draggable').forEach(el => {
-    el.ondragstart = (e) => {
-      e.dataTransfer.setData('text/plain', el.dataset.id);
-    };
-  });
+export function cleanup(container) {
+  if (container) container.innerHTML = '';
 }

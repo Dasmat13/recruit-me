@@ -1,0 +1,14 @@
+{
+  "name": "demo-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Vanilla HTML/CSS/JS demo app for the recruit-me interactive portfolio framework.",
+  "scripts": {
+    "dev": "serve -l 8000 . || npx --yes serve -l 8000 .",
+    "start": "serve -l 8000 . || npx --yes serve -l 8000 ."
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

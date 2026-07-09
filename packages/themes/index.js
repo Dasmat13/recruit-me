@@ -1,27 +1,63 @@
+/**
+ * Theme tokens and runtime switcher.
+ *
+ * Themes are pure JS token maps; the caller can render them as CSS
+ * custom properties, inline styles, or class toggles.
+ */
+
 export const themes = {
   terminal: {
+    id: 'terminal',
     name: 'Terminal',
     font: "'JetBrains Mono', monospace",
     background: '#0D0D0D',
     foreground: '#00E87E',
     accent: '#FF9F43',
-    border: 'none',
+    surface: '#111111',
+    muted: '#7a7a7a',
+    border: '#1f1f1f',
   },
-  retro: {
-    name: 'Retro Arcade',
-    font: "'Space Grotesk', sans-serif",
-    background: '#FFFFFF',
-    foreground: '#000000',
-    accent: '#FF3F3F',
-    border: '3px solid #000',
+  minimal: {
+    id: 'minimal',
+    name: 'Minimal',
+    font: "system-ui, -apple-system, 'Segoe UI', sans-serif",
+    background: '#ffffff',
+    foreground: '#111111',
+    accent: '#2563eb',
+    surface: '#f8fafc',
+    muted: '#64748b',
+    border: '#e2e8f0',
+  },
+  cyberpunk: {
+    id: 'cyberpunk',
+    name: 'Cyberpunk',
+    font: "'Space Grotesk', 'Courier New', sans-serif",
+    background: '#0b0f19',
+    foreground: '#ff2ef9',
+    accent: '#00f0ff',
+    surface: '#101726',
+    muted: '#8aa3c9',
+    border: '#1f2b45',
   },
 };
 
 export function applyTheme(themeName) {
-  const theme = themes[themeName] || themes.retro;
+  const theme = themes[themeName] || themes.minimal;
   const root = document.documentElement;
+  root.dataset.theme = theme.id;
   root.style.setProperty('--font-main', theme.font);
   root.style.setProperty('--color-bg', theme.background);
   root.style.setProperty('--color-fg', theme.foreground);
   root.style.setProperty('--color-accent', theme.accent);
+  root.style.setProperty('--color-surface', theme.surface);
+  root.style.setProperty('--color-muted', theme.muted);
+  root.style.setProperty('--color-border', theme.border);
+}
+
+export function getToken(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(`--${name}`).trim() || null;
+}
+
+export function listThemeIds() {
+  return Object.keys(themes);
 }

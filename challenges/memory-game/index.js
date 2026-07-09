@@ -1,16 +1,25 @@
 /**
  * Memory Game Challenge
  *
- * A lightweight memory card matching mini-game for portfolios.
+ * A lightweight memory card matching mini-game.
  */
 
-export function init(container) {
+export const metadata = {
+  title: 'Memory Match',
+  description: 'Match the DevOps icons.',
+  difficulty: 'easy',
+  estimatedMinutes: 1,
+  tags: ['game', 'memory'],
+};
+
+export function init(container, engine) {
   const items = ['🐙', '🚀', '☸️', '🔐', '📦', '🧪'];
-  const cards = [...items, ...items];
-  cards.sort(() => Math.random() - 0.5);
+  const symbols = [...items, ...items];
+  symbols.sort(() => Math.random() - 0.5);
 
   container.innerHTML = '<h3>Memory: Match the DevOps icons.</h3>';
   const grid = document.createElement('div');
+  grid.className = 'memory-grid';
   grid.style.display = 'grid';
   grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
   grid.style.gap = '0.5rem';
@@ -18,36 +27,40 @@ export function init(container) {
   container.appendChild(grid);
 
   let flipped = [];
+  let completed = 0;
+  const totalPairs = items.length;
 
-  cards.forEach((symbol, idx) => {
-    const card = document.createElement('div');
+  symbols.forEach((symbol, idx) => {
+    const card = document.createElement('button');
+    card.type = 'button';
     card.className = 'memory-card';
     card.dataset.symbol = symbol;
     card.dataset.idx = idx;
-    card.innerHTML = '<div class="memory-back">?</div><div class="memory-front">' + symbol + '</div>';
-    card.style.border = '2px solid #000';
-    card.style.padding = '1rem';
-    card.style.textAlign = 'center';
-    card.style.fontSize = '1.5rem';
-    card.style.cursor = 'pointer';
-    card.style.background = '#fff';
+    card.setAttribute('aria-label', 'Hidden card');
+    card.innerHTML = '<span class="memory-back" aria-hidden="true">?</span><span class="memory-front" aria-hidden="true">' + symbol + '</span>';
     card.onclick = () => {
       if (flipped.length >= 2 || card.classList.contains('flipped')) return;
       card.classList.add('flipped');
-      card.innerHTML = symbol;
+      card.setAttribute('aria-label', symbol);
       flipped.push(card);
       if (flipped.length === 2) {
         const [a, b] = flipped;
         if (a.dataset.symbol === b.dataset.symbol) {
-          a.style.background = '#d4edda';
-          b.style.background = '#d4edda';
+          a.style.background = 'var(--color-accent)';
+          a.style.color = '#fff';
+          b.style.background = 'var(--color-accent)';
+          b.style.color = '#fff';
+          completed += 1;
           flipped = [];
+          if (completed === totalPairs && engine && typeof engine.complete === 'function') {
+            engine.complete('memoryGame', 10);
+          }
         } else {
           setTimeout(() => {
             a.classList.remove('flipped');
             b.classList.remove('flipped');
-            a.innerHTML = '<div class="memory-back">?</div>';
-            b.innerHTML = '<div class="memory-back">?</div>';
+            a.setAttribute('aria-label', 'Hidden card');
+            b.setAttribute('aria-label', 'Hidden card');
             flipped = [];
           }, 600);
         }
@@ -55,4 +68,8 @@ export function init(container) {
     };
     grid.appendChild(card);
   });
+}
+
+export function cleanup(container) {
+  if (container) container.innerHTML = '';
 }

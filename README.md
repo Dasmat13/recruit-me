@@ -88,7 +88,7 @@ apps/
 │   ├── config.js            # Edit this for your own portfolio
 │   ├── index.html
 │   ├── style.css
-│   └── app.js
+│   └── app.mjs
 │
 packages/
 ├── challenge-engine/        # Core runtime: registry, scoring, flow
