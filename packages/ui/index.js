@@ -33,7 +33,7 @@ export function renderList(items, template) {
   items.forEach((item) => {
     const el = document.createElement('div');
     el.className = 'challenge-list-item';
-    el.innerHTML = typeof template === 'function' ? template(item) : template;
+    el.innerHTML = typeof template === 'function' ? escapeHtml(template(item)) : escapeHtml(template);
     container.appendChild(el);
   });
   return container;

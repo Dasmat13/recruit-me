@@ -45,6 +45,7 @@ export class ChallengeEngine {
   }
 
   complete(type, score = 0) {
+    if (this.state.completed.includes(type)) return;
     this.state.completed.push(type);
     this.state.scores[type] = score;
     this.state.current = null;

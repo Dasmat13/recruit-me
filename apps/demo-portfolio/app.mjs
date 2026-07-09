@@ -61,7 +61,11 @@ function challengesForMode(mode, difficulty) {
 
 function validateConfig(cfg) {
   const required = ['candidateName', 'candidateRole', 'theme', 'difficulty'];
-  return required.filter((k) => !cfg || cfg[k] === undefined || cfg[k] === '');
+  const missing = required.filter((k) => !cfg || cfg[k] === undefined || cfg[k] === '');
+  if (!missing.includes('theme') && !themes.listThemeIds().includes(cfg.theme)) {
+    missing.push('theme');
+  }
+  return missing;
 }
 
 function showConfigError(missing) {
@@ -200,7 +204,12 @@ function startMode(mode) {
 
 function completeCurrent() {
   const type = state.order[state.index];
-  if (!engine.getProgress().completed.includes(type)) {
+  if (engine.getProgress().completed.includes(type)) {
+    ui.showToast('This challenge is already completed.', 'warning');
+    return;
+  }
+  engine.complete(type, 0);
+  grantAchievement('firstSolved');
     engine.complete(type, 0);
   }
   grantAchievement('firstSolved');
@@ -331,12 +340,8 @@ function wireEvents() {
 export default async function initApp(ctx = {}) {
   config = ctx.config || window.RECRUIT_ME_CONFIG;
   if (!config) {
-    try {
-      await import('./config.js');
-    } catch (err) {
-      console.error('[recruit-me] could not load config.js', err);
-    }
-    config = window.RECRUIT_ME_CONFIG;
+    console.error('[recruit-me] config is missing. Set window.RECRUIT_ME_CONFIG or pass config to initApp().');
+    return;
   }
 
   const validated = readConfig(config);

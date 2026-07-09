@@ -22,12 +22,11 @@ export const challenges = {
 
 export const registry = {
   quiz: quiz,
-  'drag-drop': dragDrop,
-  dragDrop,
-  codeReview,
-  terminal,
-  memoryGame,
-  puzzle,
+  dragDrop: dragDrop,
+  codeReview: codeReview,
+  terminal: terminal,
+  memoryGame: memoryGame,
+  puzzle: puzzle,
 };
 
 export default registry;
