@@ -1,131 +1,109 @@
-# Recruit Me If You Can
+# Recruit Me
 
-![Recruit Me If You Can](https://via.placeholder.com/1200x600?text=Recruit+Me+If+You+Can) <!-- Replace with actual screenshot when available -->
+![Recruit Me](https://via.placeholder.com/1200x600?text=Recruit+Me+Portfolio+Framework)
 
-> **Recruit Me If You Can** — An open-source recruiter evaluation framework for developers. Prove your company qualifies first, then fork and customize this repo to build your own interactive hiring filter.
+> **Recruit Me** — an open-source portfolio × game × challenge framework.
+>
+> Recruiters complete challenges, developers explore projects, and contributors extend the platform.
 
 ---
 
-## Table of Contents
+## User Journeys
 
-1. [Features](#features)
-2. [Tech Stack](#tech-stack)
-3. [Installation & Setup](#installation--setup)
-4. [Deployment](#deployment)
-5. [Roadmap](#roadmap)
-6. [Contributing](#contributing)
-7. [License](#license)
+### 🧑 Recruiter
+Instead of reading a resume immediately, visitors see a mission screen, complete challenges, and unlock contact/projects.
+
+### 👨‍💻 Developer
+Visitors explore open-source contributions, challenge mechanics, themes, and can propose new challenge types.
+
+### 🎮 Explorer
+Visitors simply browse projects, skills, timeline, certifications, and blog posts without playing challenges.
 
 ---
 
 ## Features
 
-- **Recruiter Evaluation Flow:** Multi-step interactive assessment where recruiters must prove their company meets criteria before accessing the resume.
-- **Terminal-Style UI:** Retro hacker aesthetic with command-line interactions and animated matrix background.
-- **Role-Based Paths:** Different evaluation tracks for Fullstack, Backend, Frontend, and DevOps roles.
-- **PDF Resume Generation:** Client-side resume download using jsPDF.
-- **Dark / Light Mode:** Fully themed UI with persistent preference.
-- **Responsive Design:** Works on desktop and mobile devices.
-- **Retro Sound Effects:** Optional ambient sound effects for the hacker terminal experience.
+- **Multiple Modes:** Recruiter, Developer, and Explorer paths.
+- **Challenge System:** Quiz, drag-and-drop, terminal simulator, code review, memory game, puzzles.
+- **Themes:** Terminal, Retro Arcade, Cyberpunk, Minimal, and more.
+- **Gamification:** Achievements for completing challenges and milestones.
+- **Customization:** Change name, role, theme, and challenge selection via `apps/demo-portfolio/config.js`.
 
-## Tech Stack
+---
 
-### Frontend
-- **HTML5** — Semantic structure
-- **CSS3** — Custom properties, animations, responsive layout
-- **Vanilla JavaScript (ES6+)** — DOM manipulation, event handling, jsPDF for PDF generation
-- **Google Fonts** — Space Grotesk, JetBrains Mono
+## Project Structure
 
-### Backend
-- **Node.js + Express** — REST API
-- **MongoDB + Mongoose** — Data persistence (results, submissions)
-- **Jest + Supertest** — API testing
-- **Docker Compose** — Containerized deployment
+```
+apps/
+├── demo-portfolio/         # Running portfolio demo
+packages/
+├── challenge-engine/       # Challenge registry and scoring runtime
+├── ui/                     # Shared UI primitives
+├── animations/             # Reusable animation presets
+└── themes/                 # Theme tokens and themes
+challenges/
+├── quiz/
+├── drag-drop/
+├── terminal/
+├── code-review/
+├── puzzle/
+└── memory-game/
+docs/
+examples/
+templates/
+server/
+```
+
+## Getting Started
+
+### Run the Demo Portfolio
+
+```bash
+cd apps/demo-portfolio
+python3 -m http.server 8000
+# Open http://localhost:8000
+```
+
+### Run the Backend (Optional)
+
+```bash
+cd server
+npm install
+npm run dev
+```
 
 ## Customization
 
-This repo is designed to be forked and personalized. To make it your own:
+Fork `apps/demo-portfolio/config.js` and replace:
+- name
+- role
+- skills
+- contact links
+- theme
 
-1. **Edit `config.js`** — update candidate name, contact info, skills, and GitHub username.
-2. **Edit `index.html`** — update the portfolio section (projects, skills, bio).
-3. **Edit `app.js`** — customize questions, terminal commands, and game content.
-4. **Optional: Backend** — configure server routes and MongoDB for storing recruiter submissions.
-
-No build step required. Just fork, edit, deploy.
-
-## Installation & Setup
-
-### Prerequisites
-- Node.js >= 18
-- MongoDB (local or Atlas)
-- npm
-
-### Frontend Only (Static Demo)
-
-```bash
-# Navigate to project root
-cd recruit-me
-
-# Serve with any static server
-python3 -m http.server 8000
-# or
-npx serve .
-```
-
-### Full Stack (Frontend + Backend)
-
-```bash
-# Clone repository
-git clone https://github.com/Dasmat13/recruit-me.git
-cd recruit-me
-
-# Install server dependencies
-cd server
-npm install
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your MONGO_URI and FRONTEND_ORIGIN
-
-# Start backend
-npm run dev   # → http://localhost:3001
-
-# In a separate terminal, serve frontend
-cd ..
-python3 -m http.server 8000
-```
-
-## Deployment
-
-```bash
-# Docker Compose (builds and starts both frontend and backend)
-docker-compose up --build
-```
+No build step required.
 
 ## Roadmap
 
-- [ ] Add admin dashboard to view recruiter submissions
-- [ ] Support custom resume templates
-- [ ] Add analytics for recruiter engagement
-- [ ] Implement email notifications for new submissions
-- [ ] Add i18n support for non-English recruiters
-- [ ] PWA / offline terminal mode
+- [ ] Ship challenge-engine v1
+- [ ] Add theme marketplace
+- [ ] Recruiter analytics (privacy-conscious)
+- [ ] Mobile-optimized challenge modes
+- [ ] Multi-language support
+- [ ] AI-generated interview challenge hints
+- [ ] One-click resume PDF export
+- [ ] Leaderboard
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+We welcome all kinds of contributions. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-- Found a bug? [Open an issue](https://github.com/Dasmat13/recruit-me/issues)
-- Want a new feature? [Start a discussion](https://github.com/Dasmat13/recruit-me/issues)
-- Ready to code? Check out [good first issues](https://github.com/Dasmat13/recruit-me/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
+- Frontend: UI, themes, animations
+- Challenges: new challenge modules
+- Backend: API and tests
+- Docs: guides and architecture notes
 
-## Contributors
-
-<a href="https://github.com/Dasmat13/recruit-me/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Dasmat13/recruit-me" alt="Contributors" />
-</a>
-
-A huge thank you to everyone who contributes to this project — code, issues, design ideas, and feedback all matter. If you contribute and want to be listed here, open an issue and we'll add you.
+Start with [`challenges/example/`](challenges/example/) for a template challenge.
 
 ## License
 

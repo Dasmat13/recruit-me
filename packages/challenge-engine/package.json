@@ -1,0 +1,17 @@
+{
+  "name": "@recruit-me/challenge-engine",
+  "version": "0.1.0",
+  "description": "Core challenge runtime for Recruit Me interactive portfolios.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "portfolio",
+    "challenge",
+    "gamification",
+    "interactive"
+  ],
+  "license": "MIT"
+}

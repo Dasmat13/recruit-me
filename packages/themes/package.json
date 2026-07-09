@@ -1,0 +1,8 @@
+{
+  "name": "@recruit-me/themes",
+  "version": "0.1.0",
+  "description": "Theme system for Recruit Me portfolios.",
+  "main": "index.js",
+  "type": "module",
+  "license": "MIT"
+}

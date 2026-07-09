@@ -1,0 +1,25 @@
+{
+  "name": "Developer Name",
+  "role": "Full Stack Developer",
+  "theme": "retro",
+  "difficulty": "medium",
+  "paths": {
+    "recruiter": true,
+    "developer": true,
+    "explorer": true
+  },
+  "challenges": [
+    "quiz",
+    "code-review",
+    "drag-drop",
+    "terminal",
+    "memory-game"
+  ],
+  "contact": {
+    "email": "candidate@example.com",
+    "github": "https://github.com/your-username",
+    "linkedin": "https://linkedin.com/in/your-profile"
+  },
+  "skills": ["JavaScript", "Node.js", "Express", "MongoDB"],
+  "unlockResume": true
+}

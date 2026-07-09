@@ -1,0 +1,8 @@
+{
+  "name": "@recruit-me/animations",
+  "version": "0.1.0",
+  "description": "Animation presets for Recruit Me experiences.",
+  "main": "index.js",
+  "type": "module",
+  "license": "MIT"
+}
