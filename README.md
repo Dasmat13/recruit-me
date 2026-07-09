@@ -2,7 +2,7 @@
 
 ![Recruit Me If You Can](https://via.placeholder.com/1200x600?text=Recruit+Me+If+You+Can) <!-- Replace with actual screenshot when available -->
 
-> **Recruit Me If You Can** — A recruiter evaluation portfolio by [Dasmat Hansda]. Prove your company qualifies first before you ask me to apply.
+> **Recruit Me If You Can** — An open-source recruiter evaluation framework for developers. Prove your company qualifies first, then fork and customize this repo to build your own interactive hiring filter.
 
 ---
 
@@ -41,6 +41,17 @@
 - **MongoDB + Mongoose** — Data persistence (results, submissions)
 - **Jest + Supertest** — API testing
 - **Docker Compose** — Containerized deployment
+
+## Customization
+
+This repo is designed to be forked and personalized. To make it your own:
+
+1. **Edit `config.js`** — update candidate name, contact info, skills, and GitHub username.
+2. **Edit `index.html`** — update the portfolio section (projects, skills, bio).
+3. **Edit `app.js`** — customize questions, terminal commands, and game content.
+4. **Optional: Backend** — configure server routes and MongoDB for storing recruiter submissions.
+
+No build step required. Just fork, edit, deploy.
 
 ## Installation & Setup
 

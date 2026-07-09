@@ -3,6 +3,27 @@
    State machine, Audio Synthesizer, Live Terminal Commands, and Interactive Portfolio
    ========================================================================== */
 
+// ─── CONFIGURATION ─────────────────────────────────────────────────────────────
+// Override values in config.js or edit this section for a custom candidate.
+const CFG = window.RECRUIT_ME_CONFIG || {
+  candidateName: 'A Developer',
+  candidateRole: 'Full Stack Developer',
+  skills: ['JavaScript', 'Node.js', 'Express', 'MongoDB', 'Docker', 'AWS'],
+  terminal: {
+    scriptName: 'recruit-portfolio.sh',
+    githubUser: 'your-username',
+  },
+  branding: {
+    appName: 'Recruit Me',
+    siteUrl: 'https://your-portfolio-url.com',
+  },
+  contact: {
+    email: 'candidate@example.com',
+    github: 'https://github.com/your-username',
+    linkedin: 'https://linkedin.com/in/your-profile',
+  },
+};
+
 // ─── DYNAMIC SOUND SYNTHESIZER (WEB AUDIO API) ──────────────────────────────
 class RetroAudioSynth {
   constructor() {
@@ -607,9 +628,9 @@ let terminalReady = false;
 
 function runTerminalSequence() {
   const lines = [
-    "$ ./recruit_dasmat.sh",
+    "$ ./${CFG.terminal.scriptName}",
     "> Initializing candidate evaluation protocol...",
-    "> CANDIDATE: Dasmat Hansda | STATUS: Available",
+    "> CANDIDATE: ${CFG.candidateName} | STATUS: Available",
     "> Type 'help' to see hidden easter eggs.",
   ];
   const els = ["tl1", "tl2", "tl3", "tl4"];
@@ -677,7 +698,7 @@ function handleTerminalSubmit(event) {
       responseText = "Available commands: 'about', 'skills', 'matrix', 'hack', 'unlock', 'clear', 'beep', 'konami', 'recruit_me'";
       break;
     case "about":
-      responseText = "Dasmat Hansda: Full Stack JavaScript Developer. Passionate about backend systems, distributed architectures, and competitive programming.";
+      responseText = "${CFG.candidateName}: ${CFG.candidateRole || 'Developer'}. Passionate about building reliable software and contributing to open source.";
       break;
     case "skills":
       responseText = "Primary: Node.js, Express, MongoDB, JS/TS, PostgreSQL, Docker, AWS, Prometheus, Grafana, GitHub Actions, DSA.";
@@ -711,7 +732,7 @@ function handleTerminalSubmit(event) {
       });
       break;
     case "recruit_me":
-      responseText = "Arcade Mode Unlocked! Initiating 'Dasmat's Journey' runner game...";
+      responseText = "Arcade Mode Unlocked! Initiating 'Developer's Journey' runner game...";
       respType = "success";
       setTimeout(() => {
         openMiniGame();
@@ -757,7 +778,7 @@ async function runFakeHack() {
   AudioSynth.playBeep(300, 'sawtooth', 0.08);
   
   try {
-    const res = await fetch("https://api.github.com/users/Dasmat13/repos");
+    const res = await fetch(`https://api.github.com/users/${CFG.terminal.githubUser}/repos`);
     if (!res.ok) throw new Error("GitHub offline or rate limit");
     const repos = await res.json();
     
@@ -778,7 +799,7 @@ async function runFakeHack() {
     });
     
     setTimeout(() => {
-      writeLine("[Success] Real-time GitHub sync complete. Dasmat's credentials verified.", "#00E87E");
+      writeLine("[Success] Real-time GitHub sync complete. Candidate's credentials verified.", "#00E87E");
       showToast("Sync with GitHub profile successful!", "success");
       unlockContact();
     }, delay + 200);
@@ -1363,7 +1384,7 @@ function generateLinkedInBadgeCanvas() {
   // 7. Footer credits
   ctx.fillStyle = "#0D0D0D";
   ctx.font = "bold 11px 'JetBrains Mono', monospace";
-  ctx.fillText("Candidate: Dasmat Hansda", 30, 275);
+  ctx.fillText("Candidate: ${CFG.candidateName}", 30, 275);
   ctx.fillText("recruit-me-if-you-can.vercel.app", 30, 292);
 
   // Decorative stamp
@@ -1375,7 +1396,6 @@ function generateLinkedInBadgeCanvas() {
   
   ctx.fillStyle = "#0D0D0D";
   ctx.font = "900 10px 'Space Grotesk', sans-serif";
-  ctx.fillText("DASMAT", 502, 262);
   ctx.fillText("VERIFIED", 498, 273);
 }
 
@@ -1384,7 +1404,7 @@ function downloadBadgeImage() {
   if (!canvas) return;
   
   const link = document.createElement("a");
-  link.download = `Dasmat_Recruiter_Badge_${state.selectedRole}.png`;
+  link.download = `Recruiter_Badge_${state.selectedRole}.png`;
   link.href = canvas.toDataURL("image/png");
   link.click();
   showToast("Badge downloaded! Share it on LinkedIn.", "success");
@@ -1609,7 +1629,7 @@ function copyPitchEmail() {
   const offer = window.calculatedOffer;
   if (!offer) return;
 
-  const text = `Hi Dasmat,\n\nI just evaluated our company on your portfolio and we scored an offer attraction index of ${offer.finalScore}% (${offer.verdict}).\n\nHere are some of the benchmarks we support:\n- Salary Package: ${offer.salary} LPA\n- Hybrid/Remote Split: ${offer.remote} Days Remote\n- Dedicated Tech Training budget: ₹${(offer.learning/1000).toFixed(0)}K annually\n\nWe would love to discuss this opening with you further.\n\nBest regards,\n[My Name]\n[My Company]`;
+  const text = `Hi Candidate,\n\nI just evaluated our company on this portfolio and we scored an offer attraction index of ${offer.finalScore}% (${offer.verdict}).\n\nHere are some of the benchmarks we support:\n- Salary Package: ${offer.salary} LPA\n- Hybrid/Remote Split: ${offer.remote} Days Remote\n- Dedicated Tech Training budget: ₹${(offer.learning/1000).toFixed(0)}K annually\n\nWe would love to discuss this opening with you further.\n\nBest regards,\n[My Name]\n[My Company]`;
 
   navigator.clipboard.writeText(text).then(() => {
     showToast("Pitch Email template copied to clipboard!", "success");

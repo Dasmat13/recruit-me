@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recruit Me If You Can — Dasmat Hansda</title>
-  <meta name="description" content="Think you can recruit me? Prove your company qualifies first. An interactive recruiter evaluation by Dasmat Hansda — Full Stack Developer." />
+  <title>Recruit Me If You Can — Candidate Portfolio</title>
+  <meta name="description" content="Prove your company qualifies first. An interactive recruiter evaluation framework for developers to customize their own portfolio." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
@@ -58,7 +58,7 @@
             <span class="t-dot t-red"></span>
             <span class="t-dot t-yellow"></span>
             <span class="t-dot t-green"></span>
-            <span class="t-filename">recruit_dasmat.sh</span>
+            <span class="t-filename">recruit-portfolio.sh</span>
           </div>
           <div class="terminal-body">
             <p class="t-line" id="tl1">&nbsp;</p>
@@ -243,9 +243,9 @@
         </div>
         <p class="verdict-msg" id="verdictMsg"></p>
 
-        <!-- Dasmat Rated You Back -->
+        <!-- Your Scorecard -->
         <div class="rating-back-card" id="ratingBackCard" style="display:none; margin-top:2rem; margin-bottom:2rem;">
-          <h3 class="rating-back-title">🤝 DASMAT RATED YOU BACK:</h3>
+          <h3 class="rating-back-title">🤝 CANDIDATE RATED YOU BACK:</h3>
           <div class="rating-back-list" id="ratingBackList">
             <!-- Rendered via JS -->
           </div>
@@ -287,33 +287,33 @@
         <div class="contact-header">
           <span class="unlock-chip">✅ ACCESS GRANTED</span>
           <h2 class="contact-title">Let's Make It Official.</h2>
-          <p class="contact-sub">You passed the assessment. Here's how to reach Dasmat Hansda.</p>
+          <p class="contact-sub">You passed the assessment. Here's how to reach the candidate.</p>
         </div>
         <div class="contact-grid">
-          <a href="mailto:dasmathansda@example.com" class="contact-card" id="cc-email">
+          <a href="#" class="contact-card" id="cc-email">
             <span class="cc-icon">📧</span>
             <div class="cc-info">
               <span class="cc-type">EMAIL</span>
-              <span class="cc-val">dasmathansda@example.com</span>
+              <span class="cc-val">candidate@example.com (edit config.js)</span>
             </div>
           </a>
-          <a href="https://github.com/Dasmat13" target="_blank" class="contact-card" id="cc-github">
+          <a href="https://github.com/your-username" target="_blank" class="contact-card" id="cc-github">
             <span class="cc-icon">🐙</span>
             <div class="cc-info">
               <span class="cc-type">GITHUB</span>
-              <span class="cc-val">github.com/Dasmat13</span>
+              <span class="cc-val">github.com/your-username</span>
             </div>
           </a>
-          <a href="https://linkedin.com/in/dasmat-hansda" target="_blank" class="contact-card" id="cc-linkedin">
+          <a href="https://linkedin.com/in/your-profile" target="_blank" class="contact-card" id="cc-linkedin">
             <span class="cc-icon">💼</span>
             <div class="cc-info">
               <span class="cc-type">LINKEDIN</span>
-              <span class="cc-val">linkedin.com/in/dasmat-hansda</span>
+              <span class="cc-val">linkedin.com/in/your-profile</span>
             </div>
           </a>
         </div>
         <button class="btn btn-secondary" onclick="goToPortfolio()" style="margin-top:2.5rem;">View Full Portfolio →</button>
-        <a href="mailto:dasmathansda@example.com?subject=Re%3A%20Recruit%20Me%20If%20You%20Can&body=Hi%20Dasmat%2C%0A%0A" class="btn btn-primary" style="margin-top:1rem; display:inline-flex; text-decoration:none;">✉️ Email Me Directly</a>
+        <a href="mailto:candidate@example.com?subject=Re%3A%20Recruit%20Me%20If%20You%20Can&body=Hi%20Candidate%2C%0A%0A" class="btn btn-primary" style="margin-top:1rem; display:inline-flex; text-decoration:none;">✉️ Contact Candidate</a>
       </div>
     </section>
 
@@ -324,8 +324,8 @@
         <!-- HERO CARD -->
         <div class="portfolio-hero">
           <span class="port-badge">FULL STACK DEVELOPER</span>
-          <h1 class="port-name">Dasmat Hansda</h1>
-          <p class="port-bio">Backend engineer specializing in Node.js, cloud systems architecture, and API development. Building highly reliable software infrastructure and active open-source contributor.</p>
+          <h1 class="port-name">A Developer</h1>
+          <p class="port-bio">Full Stack Developer passionate about building reliable software and open source. Customize this bio in config.js and index.html.</p>
           
           <div class="skills-row">
             <span class="skill">Node.js</span><span class="skill">Express.js</span><span class="skill">MongoDB</span>
@@ -551,31 +551,31 @@
               <h3 class="proj-name">Explain My Repo</h3>
               <p class="proj-desc">AI-powered analyzer converting full repository architectures into neat Markdown explanations. Built on Node.js and the Gemini API.</p>
               <div class="proj-tags"><span class="ptag">Node.js</span><span class="ptag">Gemini AI</span><span class="ptag">REST API</span></div>
-              <a href="https://github.com/Dasmat13" target="_blank" class="btn btn-outline" style="margin-top:1rem;">View Codebase →</a>
-            </div>
-            
-            <div class="project-card">
-              <span class="proj-num">02 / PROJECT</span>
-              <h3 class="proj-name">UptimeOps SaaS</h3>
-              <p class="proj-desc">Real-time health checking platform with live metrics collections, Redis background worker job systems, and alert channels.</p>
-              <div class="proj-tags"><span class="ptag">Docker</span><span class="ptag">Prometheus</span><span class="ptag">Redis</span></div>
-              <a href="https://github.com/Dasmat13" target="_blank" class="btn btn-outline" style="margin-top:1rem;">View Codebase →</a>
-            </div>
+               <a href="https://github.com/your-username/repo-1" target="_blank" class="btn btn-outline" style="margin-top:1rem;">View Codebase →</a>
+             </div>
+             
+             <div class="project-card">
+               <span class="proj-num">02 / PROJECT</span>
+               <h3 class="proj-name">Project Two</h3>
+               <p class="proj-desc">Replace with your project description in index.html.</p>
+               <div class="proj-tags"><span class="ptag">Tech</span><span class="ptag">Stack</span><span class="ptag">Tags</span></div>
+               <a href="https://github.com/your-username/repo-2" target="_blank" class="btn btn-outline" style="margin-top:1rem;">View Codebase →</a>
+             </div>
 
-            <div class="project-card">
-              <span class="proj-num">03 / PROJECT</span>
-              <h3 class="proj-name">Auto Annotator</h3>
-              <p class="proj-desc">Industrial annotation orchestrator to tag large image metadata arrays at scale. Built with asynchronous queue pools in Node.js.</p>
-              <div class="proj-tags"><span class="ptag">Node.js</span><span class="ptag">Worker Pools</span><span class="ptag">NoSQL</span></div>
-              <a href="https://github.com/Dasmat13" target="_blank" class="btn btn-outline" style="margin-top:1rem;">View Codebase →</a>
-            </div>
+             <div class="project-card">
+               <span class="proj-num">03 / PROJECT</span>
+               <h3 class="proj-name">Project Three</h3>
+               <p class="proj-desc">Add or remove project cards in the projects-section of index.html.</p>
+               <div class="proj-tags"><span class="ptag">Tech</span><span class="ptag">Stack</span><span class="ptag">Tags</span></div>
+               <a href="https://github.com/your-username/repo-3" target="_blank" class="btn btn-outline" style="margin-top:1rem;">View Codebase →</a>
+             </div>
           </div>
         </div>
 
         <!-- NEW COMPONENT: INTERACTIVE COMPENSATION OFFER CALCULATOR -->
         <div class="calculator-section">
           <h2 class="section-heading">Offer Attraction Index</h2>
-          <p style="margin-bottom:1.5rem; opacity:0.8;">Recruiters: Adjust the sliders below to see if your compensation and hybrid balance would appeal to Dasmat Hansda in real-time!</p>
+          <p style="margin-bottom:1.5rem; opacity:0.8;">Recruiters: Adjust the sliders below to see if your compensation and hybrid balance would appeal to this candidate in real-time!</p>
           <div class="calculator-card">
             <div class="calc-grid">
               <div class="calc-sliders">
@@ -626,7 +626,7 @@
 
       <!-- FOOTER -->
       <footer class="port-footer">
-        <p>Built with <span class="port-footer-heart">❤</span> & Neobrutalism tokens by Dasmat Hansda © 2026. All code evaluations are game-based simulation matrices.</p>
+        <p>Built with <span class="port-footer-heart">❤</span> & Recruit Me framework. All code evaluations are game-based simulation matrices.</p>
       </footer>
     </section>
   </div>
@@ -653,7 +653,7 @@
   <div id="gameModal" class="game-modal">
     <div class="game-modal-content">
       <div class="game-modal-header">
-        <span class="game-title">🕹️ Dasmat's Journey: Retro Runner</span>
+        <span class="game-title">🕹️ Retro Runner: Developer Edition</span>
         <button class="game-close" onclick="closeMiniGame()">✕</button>
       </div>
       <div class="game-body">
