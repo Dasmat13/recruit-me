@@ -18,7 +18,7 @@ describe('validateConfig', () => {
     const cfg = {
       candidateName: '',
       candidateRole: 'x',
-      theme: 'retro',
+      theme: 'terminal',
       difficulty: 'easy',
     };
     expect(validateConfig(cfg)).toContain('candidateName');
