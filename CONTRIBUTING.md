@@ -12,7 +12,8 @@ frontend, backend, challenges, themes, docs, and accessibility.
 5. [Pull Requests](#pull-requests)
 6. [Development Setup](#development-setup)
 7. [Writing a Challenge](#writing-a-challenge)
-8. [Style Guide](#style-guide)
+8. [Authoring a Theme](#authoring-a-theme)
+9. [Style Guide](#style-guide)
 
 ## Code of Conduct
 
@@ -66,6 +67,23 @@ docker-compose up --build
 
 Challenges live in `challenges/*/index.js`. Each module exports an `init(container)` function.
 Use shared UI helpers from `packages/ui` and keep dependencies minimal.
+
+## Authoring a Theme
+
+Themes are token maps registered in `packages/themes/index.js`. To add one:
+
+1. Add an entry to the exported `themes` object. Give it a unique `id` and a display `name`.
+2. Provide values for every token used by the runtime: `font`, `background`, `foreground`, `accent`, `surface`, `muted`, and `border`.
+3. Keep the values readable in both the portfolio content and interactive challenge controls. The runtime maps these fields to the `--font-main` and `--color-*` CSS custom properties.
+4. Add the new theme id to `apps/demo-portfolio/config.js` temporarily, or use it in a test fixture, to exercise the configuration validator.
+5. Start the static demo from `apps/demo-portfolio` and check the portfolio and challenge views in a browser:
+
+   ```bash
+   cd apps/demo-portfolio
+   python3 -m http.server 8000
+   ```
+
+6. Update the theme list in the README when the theme is intended for general use, then open a focused pull request with screenshots of the rendered result.
 
 ## Style Guide
 
