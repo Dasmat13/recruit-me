@@ -117,27 +117,40 @@ server/                      # Optional backend API
 
 ## Getting Started
 
-### Quick Demo
+### Run in 2 Minutes (No Backend)
+
+The demo portfolio is a static app and does not need Node.js, MongoDB, or environment variables.
 
 ```bash
-# Clone the repository
 git clone https://github.com/Dasmat13/recruit-me.git
 cd recruit-me
-
-# Serve the demo portfolio
 cd apps/demo-portfolio
 python3 -m http.server 8000
-# Open http://localhost:8000
 ```
 
-### Backend (Optional)
+Open <http://localhost:8000> after the server starts.
+
+### Run With the Optional Backend
+
+Use this path when you want to store assessment results and use the analytics API. The backend requires Node.js 18+, npm, and a running MongoDB instance.
 
 ```bash
-# Start the API for storing results
-cd recruit-me/server
+# From the repository root
+cd server
 npm install
+cp .env.example .env
+# Set MONGO_URI in server/.env if MongoDB is not running locally.
 npm run dev
 ```
+
+The API listens on <http://localhost:3001>. In a second terminal, serve the demo:
+
+```bash
+cd apps/demo-portfolio
+python3 -m http.server 8000
+```
+
+For a fully containerized setup, run `docker-compose up --build` from the repository root.
 
 ### Docker
 
