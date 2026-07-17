@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace=apps/demo-portfolio",
-    "build": "npm run build --workspaces --if-present",
+    "build": "node build.js",
     "preview": "npm run preview --workspace=apps/demo-portfolio",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "typecheck": "tsc --noEmit",

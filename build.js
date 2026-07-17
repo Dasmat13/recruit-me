@@ -19,7 +19,10 @@ function copyRecursiveSync(src, dest) {
   }
 }
 
-const outputDir = path.join(__dirname, '.vercel', 'output', 'static');
+const outputDir = path.join(__dirname, 'dist');
+if (fs.existsSync(outputDir)) {
+  fs.rmSync(outputDir, { recursive: true, force: true });
+}
 fs.mkdirSync(outputDir, { recursive: true });
 
 // Copy demo-portfolio files to static root
@@ -33,8 +36,4 @@ fs.readdirSync(srcDir).forEach((file) => {
 copyRecursiveSync(path.join(__dirname, 'packages'), path.join(outputDir, 'packages'));
 copyRecursiveSync(path.join(__dirname, 'challenges'), path.join(outputDir, 'challenges'));
 
-console.log(`Deploy build: successfully copied app, packages, and challenges to ${outputDir}`);
-
-module.exports = {
-  outputDirectory: outputDir,
-};
+console.log(`Build completed: copied app, packages, and challenges to ${outputDir}`);
