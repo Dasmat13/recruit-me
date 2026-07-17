@@ -210,9 +210,6 @@ function completeCurrent() {
   }
   engine.complete(type, 0);
   grantAchievement('firstSolved');
-    engine.complete(type, 0);
-  }
-  grantAchievement('firstSolved');
   if (type === 'codeReview') grantAchievement('bugHunter');
   if (type === 'terminal') grantAchievement('cicdMaster');
   evaluateUnlocks();
