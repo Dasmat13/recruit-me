@@ -32,6 +32,17 @@ fs.readdirSync(srcDir).forEach((file) => {
   copyRecursiveSync(path.join(srcDir, file), path.join(outputDir, file));
 });
 
+// Fix relative imports in JS/MJS files that were flattened to the root
+['app.mjs', 'loader.mjs', 'config.js'].forEach((file) => {
+  const filePath = path.join(outputDir, file);
+  if (fs.existsSync(filePath)) {
+    let content = fs.readFileSync(filePath, 'utf8');
+    content = content.replace(/\.\.\/\.\.\/packages/g, './packages');
+    content = content.replace(/\.\.\/\.\.\/challenges/g, './challenges');
+    fs.writeFileSync(filePath, content);
+  }
+});
+
 // Copy packages and challenges so relative imports work in the deployed build
 copyRecursiveSync(path.join(__dirname, 'packages'), path.join(outputDir, 'packages'));
 copyRecursiveSync(path.join(__dirname, 'challenges'), path.join(outputDir, 'challenges'));
