@@ -39,6 +39,17 @@ export const themes = {
     muted: '#8aa3c9',
     border: '#1f2b45',
   },
+  neuroblast: {
+    id: 'neuroblast',
+    name: 'Neuroblast',
+    font: "'Space Grotesk', system-ui, sans-serif",
+    background: '#050A15',
+    foreground: '#00F2FE',
+    accent: '#FE0979',
+    surface: '#0D162B',
+    muted: '#5E6D8C',
+    border: '#1A2B50',
+  },
 };
 
 export function applyTheme(themeName) {

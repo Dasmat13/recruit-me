@@ -3,7 +3,7 @@ const config = {
   candidateRole: 'Full Stack Developer',
   candidateBio:
     'Passionate about building reliable software and contributing to open source. Adapt this bio to match any candidate.',
-  theme: 'terminal',
+  theme: 'neuroblast',
   difficulty: 'medium',
   skills: ['JavaScript', 'Node.js', 'Express', 'MongoDB', 'Docker', 'AWS', 'TypeScript', 'PostgreSQL'],
   contact: {
